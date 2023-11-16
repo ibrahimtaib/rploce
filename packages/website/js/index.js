@@ -56,3 +56,12 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   });
 });
+
+colorPicker.addEventListener('change', watchColorPicker, false);
+
+function watchColorPicker(event) {
+  console.log('color change');
+  document
+    .getElementById('colorInput')
+    .setAttribute('value', event.target.value);
+}
