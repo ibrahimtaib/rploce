@@ -36,6 +36,7 @@ fetch('http://localhost:3003/canvas')
 document.addEventListener('DOMContentLoaded', function () {
   colorPickerSetUp();
   tableSetUp();
+  eventsSetUp();
 });
 
 function colorPickerSetUp() {
@@ -111,22 +112,24 @@ function focusableTableSetUp() {
   });
 }
 
-const eventSource = new EventSource('http://localhost:3003/canvas/event');
+function eventsSetUp() {
+  const eventSource = new EventSource('http://localhost:3003/canvas/event');
 
-// Set up event listeners for different types of events
-eventSource.addEventListener('message', function (event) {
-  console.log('message');
-  // Handle 'message' events
-  const data = JSON.parse(event.data);
-  renderTable(data);
-});
+  // Set up event listeners for different types of events
+  eventSource.addEventListener('message', function (event) {
+    console.log('message');
+    // Handle 'message' events
+    const data = JSON.parse(event.data);
+    renderTable(data);
+  });
 
-eventSource.addEventListener('open', function (event) {
-  // Handle 'open' events (connection opened)
-  console.log('SSE connection opened');
-});
+  eventSource.addEventListener('open', function (event) {
+    // Handle 'open' events (connection opened)
+    console.log('SSE connection opened');
+  });
 
-eventSource.addEventListener('error', function (event) {
-  // Handle 'error' events
-  console.error('SSE error:', event);
-});
+  eventSource.addEventListener('error', function (event) {
+    // Handle 'error' events
+    console.error('SSE error:', event);
+  });
+}
