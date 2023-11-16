@@ -25,8 +25,6 @@ router.route({
   }
 });
 
-// Assuming canvas is a two-dimensional array
-
 router.route({
   path: '/canvas/row/:row/col/:col/:color',
   method: 'POST',
@@ -96,5 +94,49 @@ router.route({
     canvas[rowIndex][colIndex] = color;
     saveCanvas(canvas);
     return Response.json(canvas);
+  }
+});
+router.route({
+  path: 'canvas/event',
+  method: 'GET',
+  schemas: {
+    responses: {
+      200: {
+        type: 'string'
+      } as const
+    }
+  },
+  handler() {
+    console.log('HERE');
+    console.log('HERE');
+    console.log('HERE');
+    console.log('HERE');
+    console.log('HERE');
+    console.log('HERE');
+    console.log('HERE');
+    console.log('HERE');
+    console.log('HERE');
+    console.log('HERE');
+    console.log('HERE');
+    console.log('HERE');
+    console.log('HERE');
+    console.log('HERE');
+    return new globalThis.Response(
+      new ReadableStream({
+        async start(controller) {
+          while (true) {
+            console.log('data: ' + new Date().toISOString() + '\r\n\r\n');
+            controller.enqueue('data: ' + new Date().toISOString() + '\n\n');
+            // Simulate delay before sending the next event
+            await new Promise((resolve) => setTimeout(resolve, 1000));
+          }
+        }
+      }),
+      {
+        headers: {
+          'Content-Type': 'text/event-stream'
+        }
+      }
+    );
   }
 });

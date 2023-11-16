@@ -106,3 +106,22 @@ function focusableTableSetUp() {
     }
   });
 }
+
+const eventSource = new EventSource('http://localhost:3003/canvas/event');
+
+// Set up event listeners for different types of events
+eventSource.addEventListener('message', function (event) {
+  console.log('message');
+  // Handle 'message' events
+  console.log(event.data);
+});
+
+eventSource.addEventListener('open', function (event) {
+  // Handle 'open' events (connection opened)
+  console.log('SSE connection opened');
+});
+
+eventSource.addEventListener('error', function (event) {
+  // Handle 'error' events
+  console.error('SSE error:', event);
+});
