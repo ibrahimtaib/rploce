@@ -49,9 +49,10 @@ document.addEventListener('DOMContentLoaded', function () {
         {
           method: 'POST'
         }
-      )
-        .then((res) => res.json())
-        .then(renderTable);
+      ).then((res) => {
+        if (res.status == 200)
+          event.target.style.backgroundColor = selectedColor;
+      });
     }
   });
 });
