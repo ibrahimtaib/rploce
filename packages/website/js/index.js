@@ -46,32 +46,40 @@ function watchColorPicker(event) {
     .setAttribute('value', event.target.value);
 }
 
+// Color change function
+function colorChangeHandler(event) {
+  if (event.target.tagName === 'TD') {
+    const selectedColor = document
+      .getElementById('colorInput')
+      .getAttribute('value');
+    console.log(selectedColor);
+    const row = event.target.getAttribute(DATA_ROW_ATTRIBUTE);
+    const col = event.target.getAttribute(DATA_COL_ATTRIBUTE);
+    console.log(
+      `http://localhost:3003/canvas/row/${row}/col/${col}/${
+        selectedColor.split('#')[1]
+      }`
+    );
+    fetch(
+      `http://localhost:3003/canvas/row/${row}/col/${col}/${
+        selectedColor.split('#')[1]
+      }`,
+      {
+        method: 'POST'
+      }
+    ).then((res) => {
+      if (res.status == 200) event.target.style.backgroundColor = selectedColor;
+    });
+  }
+}
+
 function tableSetUp() {
   // Add event listeners to change the color of the table elements
-  $table.addEventListener('click', (event) => {
-    if (event.target.tagName === 'TD') {
-      const selectedColor = document
-        .getElementById('colorInput')
-        .getAttribute('value');
-      console.log(selectedColor);
-      const row = event.target.getAttribute(DATA_ROW_ATTRIBUTE);
-      const col = event.target.getAttribute(DATA_COL_ATTRIBUTE);
-      console.log(
-        `http://localhost:3003/canvas/row/${row}/col/${col}/${
-          selectedColor.split('#')[1]
-        }`
-      );
-      fetch(
-        `http://localhost:3003/canvas/row/${row}/col/${col}/${
-          selectedColor.split('#')[1]
-        }`,
-        {
-          method: 'POST'
-        }
-      ).then((res) => {
-        if (res.status == 200)
-          event.target.style.backgroundColor = selectedColor;
-      });
+  $table.addEventListener('click', colorChangeHandler);
+  $table.addEventListener('keydown', (event) => {
+    if (event.key === 'Enter') {
+      // Your code to handle the "Enter" key press
+      colorChangeHandler(event);
     }
   });
 }
