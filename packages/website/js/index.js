@@ -5,6 +5,10 @@ const $table = document.querySelector('table');
 let selectedColor = 'black';
 // Render the grid fetched from server inside of $table
 const renderTable = (grid) => {
+  // Empty table
+  while ($table.firstChild) {
+    $table.removeChild($table.firstChild);
+  }
   let nbRow = 0;
   grid.forEach((row) => {
     const $row = document.createElement('tr');
@@ -113,7 +117,8 @@ const eventSource = new EventSource('http://localhost:3003/canvas/event');
 eventSource.addEventListener('message', function (event) {
   console.log('message');
   // Handle 'message' events
-  console.log(event.data);
+  const data = JSON.parse(event.data);
+  renderTable(data);
 });
 
 eventSource.addEventListener('open', function (event) {
