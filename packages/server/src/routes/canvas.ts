@@ -3,7 +3,7 @@ import { router } from '../lib/server.js';
 import { canvas, saveCanvas } from '../lib/canvas.js';
 
 const CANVAS_PATH = '/canvas';
-
+const IPS = new Set<String>();
 router.route({
   path: CANVAS_PATH,
   method: 'GET',
@@ -64,21 +64,33 @@ router.route({
             type: 'string'
           }
         }
+      } as const,
+      401: {
+        type: 'object',
+        properties: {
+          error: {
+            type: 'string'
+          }
+        }
       } as const
     }
   },
   handler(request) {
     const { color, col, row } = request.params;
-    console.log(request.params);
     // Parse the indices as integers
     const rowIndex = parseInt(row);
     const colIndex = parseInt(col);
 
     // Check if the indices are within bounds
     if (isNaN(rowIndex) || isNaN(colIndex)) {
-      return Response.json({
-        error: 'Column and row index are wrong'
-      });
+      return Response.json(
+        {
+          error: 'Column and row index are wrong'
+        },
+        {
+          status: 400
+        }
+      );
     }
     if (
       rowIndex < 0 ||
@@ -86,11 +98,32 @@ router.route({
       colIndex < 0 ||
       colIndex >= canvas[rowIndex].length
     ) {
-      return Response.json({
-        error: 'Column and row index are out of bounds'
-      });
+      return Response.json(
+        {
+          error: 'Column and row index are out of bounds'
+        },
+        {
+          status: 400
+        }
+      );
     }
 
+    // Check if timed out
+    if (IPS.has(request.ip)) {
+      return Response.json(
+        {
+          error: 'You are timed out'
+        },
+        {
+          status: 401
+        }
+      );
+    }
+    // Time out ip
+    IPS.add(request.ip);
+    setTimeout(() => {
+      IPS.delete(request.ip);
+    }, 1000);
     canvas[rowIndex][colIndex] = color;
     saveCanvas(canvas);
     return Response.json(canvas);
