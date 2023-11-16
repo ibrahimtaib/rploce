@@ -147,7 +147,6 @@ router.route({
       new ReadableStream({
         async start(controller) {
           while (true) {
-            console.log('data: ' + new Date().toISOString() + '\r\n\r\n');
             controller.enqueue('data: ' + JSON.stringify(canvas) + '\n\n');
             // Simulate delay before sending the next event
             await new Promise((resolve) => setTimeout(resolve, 1000));

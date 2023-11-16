@@ -47,7 +47,6 @@ function colorPickerSetUp() {
 }
 
 function watchColorPicker(event) {
-  console.log('color change');
   document
     .getElementById('colorInput')
     .setAttribute('value', event.target.value);
@@ -59,14 +58,9 @@ function colorChangeHandler(event) {
     const selectedColor = document
       .getElementById('colorInput')
       .getAttribute('value');
-    console.log(selectedColor);
     const row = event.target.getAttribute(DATA_ROW_ATTRIBUTE);
     const col = event.target.getAttribute(DATA_COL_ATTRIBUTE);
-    console.log(
-      `http://localhost:3003/canvas/row/${row}/col/${col}/${
-        selectedColor.split('#')[1]
-      }`
-    );
+
     fetch(
       `http://localhost:3003/canvas/row/${row}/col/${col}/${
         selectedColor.split('#')[1]
@@ -119,7 +113,6 @@ function eventsSetUp() {
 
   // Set up event listeners for different types of events
   eventSource.addEventListener('message', function (event) {
-    console.log('message');
     // Handle 'message' events
     const data = JSON.parse(event.data);
     renderTable(data);
@@ -127,7 +120,6 @@ function eventsSetUp() {
 
   eventSource.addEventListener('open', function (event) {
     // Handle 'open' events (connection opened)
-    console.log('SSE connection opened');
   });
 
   eventSource.addEventListener('error', function (event) {
