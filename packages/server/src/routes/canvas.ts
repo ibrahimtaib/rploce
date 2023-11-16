@@ -51,7 +51,13 @@ router.route({
     },
     responses: {
       200: {
-        type: 'string' // Assuming your canvas contains strings, adjust as needed
+        type: 'array',
+        items: {
+          type: 'array',
+          items: {
+            type: 'string'
+          }
+        }
       } as const,
       400: {
         type: 'object',
@@ -88,6 +94,6 @@ router.route({
     }
 
     canvas[rowIndex][colIndex] = color;
-    return Response.json('Color successfully changed');
+    return Response.json(canvas);
   }
 });
