@@ -14,6 +14,8 @@ const renderTable = (grid) => {
       const $cell = document.createElement('td');
       $cell.setAttribute(DATA_ROW_ATTRIBUTE, nbRow);
       $cell.setAttribute(DATA_COL_ATTRIBUTE, nbCol++);
+      // make it focusable
+      $cell.setAttribute('tabindex', '0');
 
       $cell.style.backgroundColor = cell;
       $row.appendChild($cell);
@@ -70,6 +72,29 @@ function tableSetUp() {
         if (res.status == 200)
           event.target.style.backgroundColor = selectedColor;
       });
+    }
+  });
+}
+
+function focusableTableSetUp() {
+  document.addEventListener('DOMContentLoaded', function () {
+    const td = document.querySelectorAll('td');
+    let selectedCell = null;
+
+    // Add focus event listener to each cell
+    td.forEach((cell) => {
+      cell.addEventListener('focus', function () {
+        selectCell(cell);
+      });
+    });
+
+    function selectCell(cell) {
+      if (selectedCell) {
+        selectedCell.classList.remove('selected');
+      }
+
+      selectedCell = cell;
+      selectedCell.classList.add('selected');
     }
   });
 }
