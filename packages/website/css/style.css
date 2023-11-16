@@ -6,4 +6,5 @@ td {
   width: 1em;
   height: 1em;
   border: 0.5px solid black;
+  transition: background-color 0.5s;
 }
