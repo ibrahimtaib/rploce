@@ -1,6 +1,6 @@
 import { Response } from 'fets';
 import { router } from '../lib/server.js';
-import { canvas } from '../lib/canvas.js';
+import { canvas, saveCanvas } from '../lib/canvas.js';
 
 const CANVAS_PATH = '/canvas';
 
@@ -94,6 +94,7 @@ router.route({
     }
 
     canvas[rowIndex][colIndex] = color;
+    saveCanvas(canvas);
     return Response.json(canvas);
   }
 });
