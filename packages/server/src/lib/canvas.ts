@@ -18,3 +18,12 @@ export function saveCanvas(canvas: Canvas) {
     canvasJson
   );
 }
+
+export function clearCanvas(canvas: Canvas) {
+  for (const row of canvas) {
+    for (let i = 0; i < row.length; i++) {
+      row[i] = '#ffffff';
+    }
+  }
+  saveCanvas(canvas);
+}
