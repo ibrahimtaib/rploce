@@ -28,6 +28,23 @@ fetch('http://localhost:3003/canvas')
   .then(renderTable);
 
 document.addEventListener('DOMContentLoaded', function () {
+  colorPickerSetUp();
+  tableSetUp();
+});
+
+function colorPickerSetUp() {
+  const colorPicker = document.getElementById('colorInput');
+  colorPicker.addEventListener('change', watchColorPicker, false);
+}
+
+function watchColorPicker(event) {
+  console.log('color change');
+  document
+    .getElementById('colorInput')
+    .setAttribute('value', event.target.value);
+}
+
+function tableSetUp() {
   // Add event listeners to change the color of the table elements
   $table.addEventListener('click', (event) => {
     if (event.target.tagName === 'TD') {
@@ -55,13 +72,4 @@ document.addEventListener('DOMContentLoaded', function () {
       });
     }
   });
-});
-
-colorPicker.addEventListener('change', watchColorPicker, false);
-
-function watchColorPicker(event) {
-  console.log('color change');
-  document
-    .getElementById('colorInput')
-    .setAttribute('value', event.target.value);
 }
