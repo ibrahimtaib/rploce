@@ -39,6 +39,8 @@ document.addEventListener('DOMContentLoaded', function () {
   eventsSetUp();
 });
 
+/*------------------------ SET UP FUNCTIONS ------------------------ */
+
 function colorPickerSetUp() {
   const colorPicker = document.getElementById('colorInput');
   colorPicker.addEventListener('change', watchColorPicker, false);
