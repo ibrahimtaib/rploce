@@ -4,6 +4,7 @@ import { canvas, saveCanvas } from '../lib/canvas.js';
 
 const CANVAS_PATH = '/canvas';
 const IPS = new Set<String>();
+const TIMEOUT = 1000; // 1 second
 router.route({
   path: CANVAS_PATH,
   method: 'GET',
@@ -123,7 +124,9 @@ router.route({
     IPS.add(request.ip);
     setTimeout(() => {
       IPS.delete(request.ip);
-    }, 1000);
+    }, TIMEOUT);
+
+    // Update canvas
     canvas[rowIndex][colIndex] = color;
     saveCanvas(canvas);
     return Response.json(canvas);
